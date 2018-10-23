@@ -1,0 +1,102 @@
+#include <stdio.h>
+#include <stdlib.h>// inclusão das bibliotecas
+#include <locale.h>// aceitar as palavras com acento
+
+int main() {           // funçao principal e inicializando as variaveis 
+	char casas[3][3];  // matriz tabuleiro
+	int quantidadejog; // variavel que vai contar as jogadas 
+	int linha, coluna; // usadadas para armazenas linha e coluna
+	int jogada = 0;    // indicar qual vez de jogar
+	int x, y;          // variaveis usadas para limpar a tela
+	         // variavel correspondente a opcao do switch
+	char resposta;     // variavel que vai armazenar  o carctere de resposta ao novo jogo
+	setlocale(LC_ALL, "Portuguese");
+		do {              sempre que for s inicia o jogo novamente
+			quantidadejog = 1;// 1 jogafas e limpa o tabuleiro
+			for (x = 0; x <= 2; x++) { // limpar a tela
+				for (y = 0; y <= 2; y++) { // limpar a tela
+					casas[x][y] = ' ';
+				}
+			}
+			do
+			{
+				system("cls");// limpar a tela
+				printf("\t  %c | %c | %c  \n", casas[0][0], casas[0][1], casas[0][2]); // tabuleiro 
+				printf("\t------------\n");
+				printf("\t  %c | %c | %c  \n", casas[1][0], casas[1][1], casas[1][2]); // tabuleiro 
+				printf("\t------------\n");
+				printf("\t  %c | %c | %c  \n", casas[2][0], casas[2][1], casas[2][2]); // tabuleiro 
+				if (jogada % 2 == 0) { // identificar o jogador
+					printf("Player X\n");
+				}
+				else {
+					printf("Player O\n");
+				}
+				printf("Digite A LINHA:");// LINHA 
+				scanf("%i", &linha);
+				printf("Digite A COLUNA:");//COLUNA
+				scanf("%i", &coluna);
+				if (linha < 1 || coluna < 1 || linha > 3 || coluna > 3) {// teste para saber se a jogado é válida 
+					linha = 0;// matriz começa de zero
+					coluna = 0;
+					printf("JAGADA INVALIDA TENTE NOVAMENTE\n");
+					system("pause");
+				}
+				else if (casas[linha - 1][coluna - 1] != ' ') {// para saber se o local ja está preenchido 
+					linha = 0;
+					coluna = 0;
+					printf("CASA JA OCUPADA TENTE NOVAMENTE\n");
+					system("pause");
+				}
+				else {
+					if (jogada % 2 == 0) {
+						casas[linha - 1][coluna - 1] = 'X';// se casa estiver com numero par vai colocar X 
+					}
+					else {
+						casas[linha - 1][coluna - 1] = 'O';// se casa estiver com numero impar vai colocar O
+					}
+					jogada++;
+					quantidadejog++;
+				}
+				// Todas formas de vencer
+				if (casas[0][0] == 'X'&& casas[0][1] == 'X' && casas[0][2] == 'X') { quantidadejog = 11; }
+				if (casas[1][0] == 'X'&& casas[1][1] == 'X' && casas[1][2] == 'X') { quantidadejog = 11; }
+				if (casas[2][0] == 'X'&& casas[2][1] == 'X' && casas[2][2] == 'X') { quantidadejog = 11; }
+				if (casas[0][0] == 'X'&& casas[1][0] == 'X' && casas[2][0] == 'X') { quantidadejog = 11; }
+				if (casas[0][1] == 'X'&& casas[1][1] == 'X' && casas[2][1] == 'X') { quantidadejog = 11; }
+				if (casas[0][2] == 'X'&& casas[1][2] == 'X' && casas[2][2] == 'X') { quantidadejog = 11; }
+				if (casas[0][0] == 'X'&& casas[1][1] == 'X' && casas[2][2] == 'X') { quantidadejog = 11; }
+				if (casas[0][2] == 'X'&& casas[1][1] == 'X' && casas[2][0] == 'X') { quantidadejog = 11; }
+
+				// Todas formas de vencer 
+				if (casas[0][0] == 'O'&& casas[0][1] == 'O' && casas[0][2] == 'O') { quantidadejog = 12; }
+				if (casas[1][0] == 'O'&& casas[1][1] == 'O' && casas[1][2] == 'O') { quantidadejog = 12; }
+				if (casas[2][0] == 'O'&& casas[2][1] == 'O' && casas[2][2] == 'O') { quantidadejog = 12; }
+				if (casas[0][0] == 'O'&& casas[1][0] == 'O' && casas[2][0] == 'O') { quantidadejog = 12; }
+				if (casas[0][1] == 'O'&& casas[1][1] == 'O' && casas[2][1] == 'O') { quantidadejog = 12; }
+				if (casas[0][2] == 'O'&& casas[1][2] == 'O' && casas[2][2] == 'O') { quantidadejog = 12; }
+				if (casas[0][0] == 'O'&& casas[1][1] == 'O' && casas[2][2] == 'O') { quantidadejog = 12; }
+				if (casas[0][2] == 'O'&& casas[1][1] == 'O' && casas[2][0] == 'O') { quantidadejog = 12; }
+			} while (quantidadejog <= 9);
+			system("cls");// limpar a tela
+			printf("\t  %c | %c | %c  \n", casas[0][0], casas[0][1], casas[0][2]);
+			printf("\t------------\n");
+			printf("\t  %c | %c | %c  \n", casas[1][0], casas[1][1], casas[1][2]);
+			printf("\t------------\n");
+			printf("\t  %c | %c | %c  \n", casas[2][0], casas[2][1], casas[2][2]);
+			if (quantidadejog == 10) {                          // resultado de empate
+				printf("JOGO TERMINOU EMPATADO!!\n");
+
+			}
+			if (quantidadejog == 11) {                      // condiçao de empate
+				printf("PLAYER X YOU WINNER\n");
+			}
+			if (quantidadejog == 12) {                       // condição de vitoria de O
+				printf("PLAYER O YOU WINNER\n");
+			}
+			printf("GOSTARIA DE JOGAR NOVAMENTE ? [S-N]\n");
+			scanf("%s", &resposta);                         // resposta para continuar
+		} while (resposta == 's');
+	system("pause");
+	return 0;
+}
